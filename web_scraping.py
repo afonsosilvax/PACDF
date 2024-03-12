@@ -9,7 +9,17 @@ page = requests.get(url).text
 doc = BeautifulSoup(page, 'html.parser')
 departures = doc.find_all('tbody')[1]
 
+lista = []
+
 for flight in departures.find_all('tr'):
-    info = flight.find_all('td')
+    l = []
+    info = flight.find_all(lambda tag: tag.name == 'td' and tag.get('colspan') != '6')
     #sell_col = str(flight.find('td', class_='flight-no')).split('(')[-1].split(')')[0]
-    print(info)
+
+    for i in info:
+        l.append(i.text)
+
+    if l != []:
+        lista += [l]
+
+print(lista)
